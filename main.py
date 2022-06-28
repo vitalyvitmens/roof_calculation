@@ -37,16 +37,22 @@ class GableRoof:
         self.ridge_clearance = ridge_clearance
 
     def number_of_ramp_sheets_1(self):
-        print(self.near_cornice_bar / USEFUL_WIDTH_OF_THE_METAL_TILE)
+        return round(self.near_cornice_bar / USEFUL_WIDTH_OF_THE_METAL_TILE, 2)
 
     def length_of_the_ramp_sheets_1(self):
-        print(self.near_left_end_plate + self.cornice_overhang + self.ridge_clearance)
+        return self.near_left_end_plate + self.cornice_overhang + self.ridge_clearance
 
     def number_of_ramp_sheets_2(self):
-        print(self.far_cornice_bar / USEFUL_WIDTH_OF_THE_METAL_TILE)
+        return round(self.far_cornice_bar / USEFUL_WIDTH_OF_THE_METAL_TILE, 2)
 
     def length_of_the_ramp_sheets_2(self):
-        print(self.far_left_end_plate + self.cornice_overhang + self.ridge_clearance)
+        return self.far_left_end_plate + self.cornice_overhang + self.ridge_clearance
 
 
-dimensions_of_the_gable_roof = GableRoof(10, 10, 10, 5, 5, 5, 5, 0.05, 0)
+slope1 = GableRoof(10, 10, 10, 5, 5, 5, 5)
+slope2 = GableRoof(10, 10, 10, 5, 5, 5, 5, 0)
+
+print(f'Количество листов МЧ ската №1: {slope1.number_of_ramp_sheets_1()}шт\n'
+      f'Длина листов ската №1: {slope1.length_of_the_ramp_sheets_1()}м')
+print(f'Количество листов МЧ ската №2: {slope2.number_of_ramp_sheets_2()}шт\n'
+      f'Длина листов ската №2: {slope2.length_of_the_ramp_sheets_2()}м')
