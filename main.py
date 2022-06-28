@@ -49,10 +49,14 @@ class GableRoof:
         return self.far_left_end_plate + self.cornice_overhang + self.ridge_clearance
 
 
-slope1 = GableRoof(10, 10, 10, 5, 5, 5, 5)
+slope1 = GableRoof(10, 10, 10, 5, 5, 5, 5, 0.05)
 slope2 = GableRoof(10, 10, 10, 5, 5, 5, 5, 0)
 
-print(f'Количество листов МЧ ската №1: {slope1.number_of_ramp_sheets_1()}шт\n'
-      f'Длина листов ската №1: {slope1.length_of_the_ramp_sheets_1()}м')
-print(f'Количество листов МЧ ската №2: {slope2.number_of_ramp_sheets_2()}шт\n'
-      f'Длина листов ската №2: {slope2.length_of_the_ramp_sheets_2()}м')
+print(f'Длина листов ската №1:         {round(slope1.length_of_the_ramp_sheets_1() * 1000)}мм\n'
+      f'Количество листов МЧ ската №1: {round(slope1.number_of_ramp_sheets_1())}шт')
+print(f'Длина листов ската №2:         {round(slope2.length_of_the_ramp_sheets_2() * 1000)}мм\n'
+      f'Количество листов МЧ ската №2: {round(slope2.number_of_ramp_sheets_2())}шт')
+print(f'Итого листов по двум скатам:   {round(slope1.number_of_ramp_sheets_1() + slope2.number_of_ramp_sheets_2())}шт')
+print(f'S кровли:                      {round(slope1.near_cornice_bar * slope1.near_left_end_plate + slope2.far_cornice_bar * slope2.far_left_end_plate, 3)}м2')
+print(f'Полезной S металлочерепицы:    {round(slope1.number_of_ramp_sheets_1() * slope1.length_of_the_ramp_sheets_1() * USEFUL_WIDTH_OF_THE_METAL_TILE, 3)}м2')
+print(f'Полной S металлочерепицы:      {round(slope1.number_of_ramp_sheets_1() * slope1.length_of_the_ramp_sheets_1() * FULL_WIDTH_OF_THE_METAL_TILE, 3)}м2')
