@@ -6,6 +6,12 @@ MIN_LENGTH: int = 850
 MAX_LENGTH: int = 5050
 OVERLAP: int = 150
 WAVE_STEP: int = 350
+COST_ROOF_PLANKS: float = 23.00
+
+UNWRAPPED_CORNICE_PLANK: float = 0.178
+UNWRAPPED_L_PLANK: float = 0.210
+UNWRAPPED_END_PLANK: float = 0.250
+UNWRAPPED_SNOW_HOLDER: float = 0.250
 
 
 def int_r(num: float):
@@ -20,7 +26,7 @@ def int_r(num: float):
 
 def break_sheets(value):
     """
-    Статическая функция break_sheets, позволяет разбить длину листов пополам или больше частей,
+    Статическая функция break_sheets, позволяет разбить длину листов пополам или на три, четыре листа,
     при превышении длины листов более 5050мм.
     """
     if MIN_LENGTH <= length_metal_tile1 > MAX_LENGTH and length_metal_tile1 <= 9950:
@@ -31,7 +37,7 @@ def break_sheets(value):
               f'Количество листов МЧ ската №1: {number_sheets1}шт      {number_sheets1}шт')
         print(f'РАССЧИТАННЫЕ ЛИСТЫ НА ЗАКАЗ:   {row1_sheets1}мм    {row2_sheets1}мм\n'
               f'СКАТ №1                        {number_sheets1}шт      {number_sheets1}шт')
-    elif MIN_LENGTH <= length_metal_tile1 > 9950:
+    elif MIN_LENGTH <= length_metal_tile1 > 9950 and length_metal_tile1 < 14850:
         row1_sheets1 = (math.ceil(
             ((round((length_metal_tile1 + OVERLAP * 2) / 3)) - MIN_LENGTH) / WAVE_STEP) * WAVE_STEP) + MIN_LENGTH
         row2_sheets1 = row1_sheets1
@@ -40,6 +46,19 @@ def break_sheets(value):
               f'Количество листов МЧ ската №1: {number_sheets1}шт      {number_sheets1}шт      {number_sheets1}шт')
         print(f'РАССЧИТАННЫЕ ЛИСТЫ НА ЗАКАЗ:   {row1_sheets1}мм    {row3_sheets1}мм\n'
               f'СКАТ №1                        {number_sheets1 * 2}шт      {number_sheets1}шт')
+    elif MIN_LENGTH <= length_metal_tile1 >= 14850:
+        row1_sheets1 = (math.ceil(
+            ((round((length_metal_tile1 + OVERLAP * 3) / 4)) - MIN_LENGTH) / WAVE_STEP) * WAVE_STEP) + MIN_LENGTH
+        row2_sheets1 = row1_sheets1
+        row3_sheets1 = row1_sheets1
+        row4_sheets1 = round(length_metal_tile1 + OVERLAP * 3) - row1_sheets1 - row2_sheets1 - row3_sheets1
+        print(
+            f'Длина листов ската №1:         '
+            f'{row1_sheets1}мм    {row2_sheets1}мм    {row3_sheets1}мм    {row4_sheets1}мм\n'
+            f'Количество листов МЧ ската №1: '
+            f'{number_sheets1}шт      {number_sheets1}шт      {number_sheets1}шт      {number_sheets1}шт')
+        print(f'РАССЧИТАННЫЕ ЛИСТЫ НА ЗАКАЗ:   {row1_sheets1}мм    {row4_sheets1}мм\n'
+              f'СКАТ №1                        {number_sheets1 * 3}шт      {number_sheets1}шт')
     else:
         row1_sheets1 = round(length_metal_tile1)
         print(f'Длина листов ската №1:         {row1_sheets1}мм\n'
@@ -55,7 +74,7 @@ def break_sheets(value):
               f'Количество листов МЧ ската №2: {number_sheets2}шт      {number_sheets2}шт')
         print(f'РАССЧИТАННЫЕ ЛИСТЫ НА ЗАКАЗ:   {row1_sheets2}мм    {row2_sheets2}мм\n'
               f'СКАТ №2                        {number_sheets2}шт      {number_sheets2}шт')
-    elif MIN_LENGTH <= length_metal_tile2 > 9950:
+    elif MIN_LENGTH <= length_metal_tile2 > 9950 and length_metal_tile1 < 14850:
         row1_sheets2 = (math.ceil(
             ((round((length_metal_tile2 + OVERLAP * 2) / 3)) - MIN_LENGTH) / WAVE_STEP) * WAVE_STEP) + MIN_LENGTH
         row2_sheets2 = row1_sheets2
@@ -64,6 +83,19 @@ def break_sheets(value):
               f'Количество листов МЧ ската №2: {number_sheets2}шт      {number_sheets2}шт      {number_sheets2}шт')
         print(f'РАССЧИТАННЫЕ ЛИСТЫ НА ЗАКАЗ:   {row1_sheets2}мм    {row3_sheets2}мм\n'
               f'СКАТ №2                        {number_sheets2 * 2}шт      {number_sheets2}шт')
+    elif MIN_LENGTH <= length_metal_tile2 > 14850:
+        row1_sheets2 = (math.ceil(
+            ((round((length_metal_tile2 + OVERLAP * 3) / 4)) - MIN_LENGTH) / WAVE_STEP) * WAVE_STEP) + MIN_LENGTH
+        row2_sheets2 = row1_sheets2
+        row3_sheets2 = row1_sheets2
+        row4_sheets2 = round(length_metal_tile2 + OVERLAP * 3) - row1_sheets2 - row2_sheets2 - row3_sheets2
+        print(
+            f'Длина листов ската №1:         '
+            f'{row1_sheets2}мм    {row2_sheets2}мм    {row3_sheets2}мм    {row4_sheets2}мм\n'
+            f'Количество листов МЧ ската №1: '
+            f'{number_sheets2}шт      {number_sheets2}шт      {number_sheets2}шт      {number_sheets2}шт')
+        print(f'РАССЧИТАННЫЕ ЛИСТЫ НА ЗАКАЗ:   {row1_sheets2}мм    {row4_sheets2}мм\n'
+              f'СКАТ №1                        {number_sheets2 * 3}шт      {number_sheets2}шт')
     else:
         row1_sheets2 = round(length_metal_tile2)
         print(f'Длина листов ската №2:         {row1_sheets2}мм\n'
@@ -152,7 +184,7 @@ class RoofSlope2(RoofSlope):
         super().__init__(ridge, cornice, left_end, right_end, cornice_clearance, ridge_clearance)
 
 
-slope1 = RoofSlope(11.3, 11.3, 9.90, 9.90, 0, 0.05)
+slope1 = RoofSlope(11.3, 11.3, 15, 15, 0, 0.05)
 useful_metal_tile_area1 = slope1.number_sheets() * slope1.length_sheets() * USEFUL_WIDTH_METAL_TILE
 full_metal_tile_area1 = slope1.number_sheets() * slope1.length_sheets() * FULL_WIDTH_METAL_TILE
 length_metal_tile1 = round(slope1.length_sheets() * 1000)
@@ -162,7 +194,7 @@ l_plank1 = (slope1.cornice * 1.05) / 2
 end_plank1 = ((slope1.left_end + slope1.right_end + (slope1.cornice_clearance + slope1.ridge_clearance) * 2) * 1.05) / 2
 snow_holder1 = slope1.cornice / 2
 
-slope2 = RoofSlope2(11.3, 11.3, 5, 5, 0, 0.05)
+slope2 = RoofSlope2(11.3, 11.3, 15, 15, 0, 0.05)
 useful_metal_tile_area2 = slope2.number_sheets() * slope2.length_sheets() * USEFUL_WIDTH_METAL_TILE
 full_metal_tile_area2 = slope2.number_sheets() * slope2.length_sheets() * FULL_WIDTH_METAL_TILE
 length_metal_tile2 = round(slope2.length_sheets() * 1000)
@@ -187,9 +219,13 @@ ridge150 = f'{math.ceil((slope1.ridge * 1.05) / 2)}шт = {(math.ceil((slope1.ri
 ridge_cylindrical = f'{math.ceil((slope1.ridge * 1.05) / 1.2)}шт = {(math.ceil((slope1.ridge * 1.05) / 1.2)) * 1.25}мп'
 plug_simple = f'{int(slope1.ridge / slope1.ridge) * 2}шт'
 cornice_plank = f'{math.ceil(cornice_plank1 + cornice_plank2)}шт = {(math.ceil(cornice_plank1 + cornice_plank2) * 2)}мп'
+cost_cornice_plank = round((math.ceil(cornice_plank1 + cornice_plank2) * 2) * UNWRAPPED_CORNICE_PLANK * COST_ROOF_PLANKS, 2)
 l_plank = f'{math.ceil(l_plank1 + l_plank2)}шт = {(math.ceil(l_plank1 + l_plank2) * 2)}мп'
+cost_l_plank = round((math.ceil(l_plank1 + l_plank2) * 2) * UNWRAPPED_L_PLANK * COST_ROOF_PLANKS, 2)
 end_plank = f'{math.ceil(end_plank1 + end_plank2)}шт = {(math.ceil(end_plank1 + end_plank2)) * 2}мп'
+cost_end_plank = round(((math.ceil(end_plank1 + end_plank2)) * 2) * UNWRAPPED_END_PLANK * COST_ROOF_PLANKS, 2)
 snow_holder = f'{math.ceil(snow_holder1 + snow_holder2)}шт = {(math.ceil(snow_holder1 + snow_holder2) * 2)}мп'
+cost_snow_holders = round((math.ceil(snow_holder1 + snow_holder2) * 2) * UNWRAPPED_SNOW_HOLDER * COST_ROOF_PLANKS, 2)
 
 break_sheets(RoofSlope)
 print(f'S кровли:                      {roof_area}м2')
@@ -204,7 +240,7 @@ print(f'Лента коньковая 260мм х 5м:    {ridge_ribbon}')
 print(f'Конек 150:                     {ridge150}')
 print(f'Конек цилиндрический:          {ridge_cylindrical}')
 print(f'Заглушка простая:              {plug_simple}')
-print(f'Карнизная планка:              {cornice_plank}')
-print(f'L-планка:                      {l_plank}')
-print(f'Торцевая планка:               {end_plank}')
-print(f'Планка снегозадержателя:       {snow_holder}')
+print(f'Карнизная планка:              {cornice_plank}       {cost_cornice_plank}руб')
+print(f'L-планка:                      {l_plank}       {cost_l_plank}руб')
+print(f'Торцевая планка:               {end_plank}       {cost_end_plank}руб')
+print(f'Планка снегозадержателя:       {snow_holder}       {cost_snow_holders}руб')
