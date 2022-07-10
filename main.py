@@ -8,6 +8,9 @@ OVERLAP: int = 150
 WAVE_STEP: int = 350
 COST_ROOF_PLANKS: float = 23.00
 
+UNWRAPPED_RIDGE150: float = 0.417
+UNWRAPPED_RIDGE_CYLINDRICAL: float = 0.470
+UNWRAPPED_PLUG_SIMPLE: float = 0.500
 UNWRAPPED_CORNICE_PLANK: float = 0.178
 UNWRAPPED_L_PLANK: float = 0.210
 UNWRAPPED_END_PLANK: float = 0.250
@@ -216,8 +219,11 @@ roofing_screws = f'{math.ceil((roof_area * 8) / 250)}уп = {(math.ceil((roof_ar
 ridge_screws = f'{math.ceil((slope1.ridge * 6) / 100)}уп = {(math.ceil((slope1.ridge * 6) / 100) * 100)}шт'
 ridge_ribbon = f'{math.ceil(slope1.ridge / 5)}шт = {math.ceil(slope1.ridge / 5) * 5}мп'
 ridge150 = f'{math.ceil((slope1.ridge * 1.05) / 2)}шт = {(math.ceil((slope1.ridge * 1.05) / 2)) * 2}мп'
+cost_ridge150 = round(((math.ceil((slope1.ridge * 1.05) / 2)) * 2) * UNWRAPPED_RIDGE150 * COST_ROOF_PLANKS, 2)
 ridge_cylindrical = f'{math.ceil((slope1.ridge * 1.05) / 1.2)}шт = {(math.ceil((slope1.ridge * 1.05) / 1.2)) * 1.25}мп'
+cost_ridge_cylindrical = round(((math.ceil((slope1.ridge * 1.05) / 1.2)) * 1.25) * UNWRAPPED_RIDGE_CYLINDRICAL * COST_ROOF_PLANKS, 2)
 plug_simple = f'{int(slope1.ridge / slope1.ridge) * 2}шт'
+cost_plug_simple = round((int(slope1.ridge / slope1.ridge) * 2) * UNWRAPPED_PLUG_SIMPLE * COST_ROOF_PLANKS, 2)
 cornice_plank = f'{math.ceil(cornice_plank1 + cornice_plank2)}шт = {(math.ceil(cornice_plank1 + cornice_plank2) * 2)}мп'
 cost_cornice_plank = round((math.ceil(cornice_plank1 + cornice_plank2) * 2) * UNWRAPPED_CORNICE_PLANK * COST_ROOF_PLANKS, 2)
 l_plank = f'{math.ceil(l_plank1 + l_plank2)}шт = {(math.ceil(l_plank1 + l_plank2) * 2)}мп'
@@ -237,9 +243,9 @@ print(f'Пароизоляционная пленка:       {vapor_barrier}')
 print(f'Саморезы кровельные 4,8х29мм:  {roofing_screws}')
 print(f'Саморезы коньковые 4,8х70мм:   {ridge_screws}')
 print(f'Лента коньковая 260мм х 5м:    {ridge_ribbon}')
-print(f'Конек 150:                     {ridge150}')
-print(f'Конек цилиндрический:          {ridge_cylindrical}')
-print(f'Заглушка простая:              {plug_simple}')
+print(f'Конек 150:                     {ridge150}        {cost_ridge150}руб')
+print(f'Конек цилиндрический:          {ridge_cylindrical}     {cost_ridge_cylindrical}руб')
+print(f'Заглушка простая:              {plug_simple}               {cost_plug_simple}руб')
 print(f'Карнизная планка:              {cornice_plank}       {cost_cornice_plank}руб')
 print(f'L-планка:                      {l_plank}       {cost_l_plank}руб')
 print(f'Торцевая планка:               {end_plank}       {cost_end_plank}руб')
